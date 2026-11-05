@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ServiceNow CSM - DSK Bank Case Workspace Mockup</title>
+<style>
+  :root{
+    --sn-green:#4CB847;
+    --sn-dark:#005C46;
+    --sn-darker:#004638;
+    --sn-bg:#F3F7F5;
+    --sn-panel:#ffffff;
+    --sn-border:#d9dfde;
+    --sn-text:#263735;
+    --sn-muted:#6d7d7a;
+    --sn-blue:#005C46;
+    --sn-red:#c53b3b;
+    --sn-amber:#b7791f;
+    --sn-success:#2f855a;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    color:var(--sn-text);
+    background:var(--sn-bg);
+  }
+  .topbar{
+    height:58px;
+    background:var(--sn-dark);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:0 22px;
+    box-shadow:0 1px 3px rgba(0,0,0,.25);
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:700;
+    letter-spacing:.2px;
+  }
+  .brand-mark{
+    width:28px;height:28px;border-radius:50%;
+    background:var(--sn-green);
+    position:relative;
+  }
+  .brand-mark:after{
+    content:"";
+    position:absolute;
+    width:10px;height:10px;
+    border-radius:50%;
+    background:var(--sn-dark);
+    top:9px;left:9px;
+  }
+  .top-search{
+    flex:1;
+    max-width:560px;
+    background:#24463e;
+    border:1px solid #31564d;
+    border-radius:6px;
+    color:#dce7e4;
+    padding:10px 13px;
+    font-size:13px;
+  }
+  .top-actions{
+    margin-left:auto;
+    display:flex; gap:16px; align-items:center;
+    font-size:13px; color:#dce7e4;
+  }
+  .layout{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    min-height:calc(100vh - 58px);
+  }
+  .sidebar{
+    background:var(--sn-darker);
+    color:#cfe0db;
+    padding:18px 0;
+  }
+  .side-title{
+    padding:0 18px 10px;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:#8eb0a7;
+  }
+  .nav-item{
+    padding:11px 18px;
+    font-size:13px;
+    display:flex; align-items:center; gap:10px;
+    border-left:3px solid transparent;
+  }
+  .nav-item.active{
+    background:#1a3931;
+    border-left-color:var(--sn-green);
+    color:#fff;
+    font-weight:700;
+  }
+  .nav-item .dot{
+    width:8px;height:8px;border-radius:50%;background:#6f8f86;
+  }
+  .nav-item.active .dot{background:var(--sn-green)}
+  main{padding:20px 24px 30px;}
+  .breadcrumb{
+    font-size:12px;color:var(--sn-muted);margin-bottom:10px;
+  }
+  .record-header{
+    background:var(--sn-panel);
+    border:1px solid var(--sn-border);
+    border-radius:8px;
+    padding:18px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    box-shadow:0 1px 2px rgba(0,0,0,.04);
+  }
+  .record-title h1{margin:0 0 6px;font-size:22px;font-weight:600}
+  .record-title .sub{font-size:13px;color:var(--sn-muted)}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .badge{
+    padding:6px 9px;border-radius:13px;font-size:11px;font-weight:700;
+    background:#edf2f1;color:#31534b;
+    border:1px solid #d4e1dd;
+  }
+  .badge.priority{background:#fff4e5;color:#975b00;border-color:#f0d4a5}
+  .badge.open{background:#e9f5ee;color:#246b45;border-color:#c9e6d5}
+  .grid{
+    display:grid;
+    grid-template-columns:1.45fr .75fr;
+    gap:18px;
+    margin-top:18px;
+  }
+  .card{
+    background:var(--sn-panel);
+    border:1px solid var(--sn-border);
+    border-radius:8px;
+    box-shadow:0 1px 2px rgba(0,0,0,.04);
+    overflow:hidden;
+  }
+  .card-title{
+    padding:13px 16px;
+    font-size:13px;
+    font-weight:700;
+    border-bottom:1px solid var(--sn-border);
+    background:#fbfcfc;
+  }
+  .card-body{padding:16px}
+  .fields{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px 18px;
+  }
+  .field label{
+    display:block;
+    font-size:11px;
+    color:var(--sn-muted);
+    margin-bottom:5px;
+  }
+  .value{
+    min-height:34px;
+    padding:8px 10px;
+    border:1px solid #cfd7d5;
+    border-radius:4px;
+    background:#fff;
+    font-size:13px;
+  }
+  .value.readonly{background:#f7f9f9}
+  .full{grid-column:1/-1}
+  .desc{
+    line-height:1.45;
+    min-height:84px;
+  }
+  .section-gap{margin-top:18px}
+  .sla{
+    display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  }
+  .sla-box{
+    padding:12px;border:1px solid var(--sn-border);border-radius:6px;background:#f9fbfa;
+  }
+  .sla-box .k{font-size:11px;color:var(--sn-muted)}
+  .sla-box .v{font-size:17px;font-weight:700;margin-top:4px}
+  .sla-box .ok{color:var(--sn-success)}
+  .sla-box .warn{color:var(--sn-amber)}
+  .timeline{list-style:none;margin:0;padding:0}
+  .timeline li{
+    position:relative;
+    padding:0 0 18px 23px;
+    font-size:13px;
+    line-height:1.35;
+  }
+  .timeline li:before{
+    content:"";
+    width:10px;height:10px;border-radius:50%;
+    background:var(--sn-green);
+    position:absolute;left:0;top:3px;
+  }
+  .timeline li:after{
+    content:"";
+    position:absolute;left:4px;top:15px;bottom:2px;
+    width:2px;background:#d7e0dd;
+  }
+  .timeline li:last-child:after{display:none}
+  .timeline time{display:block;color:var(--sn-muted);font-size:11px;margin-top:3px}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th,td{padding:10px 8px;border-bottom:1px solid #e2e7e6;text-align:left}
+  th{font-size:11px;color:var(--sn-muted);font-weight:700;background:#fbfcfc}
+  .pill{
+    display:inline-block;padding:3px 7px;border-radius:10px;background:#eef3f2;font-size:10px;font-weight:700
+  }
+  .pill.voice{background:#e7f0ff;color:#305b98}
+  .pill.work{background:#f2ecff;color:#6845a5}
+  .pill.digital{background:#e9f6ee;color:#2f6f48}
+  .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  button{
+    border:1px solid #2b5c50;background:#2f6255;color:white;
+    padding:8px 12px;border-radius:4px;font-size:12px;cursor:pointer;
+  }
+  button.secondary{background:white;color:#2f6255}
+  .context{
+    background:#eef5f3;border:1px solid #cfe0db;border-radius:6px;padding:12px;
+    font-size:12px;line-height:1.55;
+  }
+  .context strong{color:#1f4b40}
+  .footer-note{
+    margin-top:16px;color:var(--sn-muted);font-size:11px;text-align:right;
+  }
+  @media(max-width:900px){
+    .layout{grid-template-columns:1fr}
+    .sidebar{display:none}
+    .grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand"><span class="brand-mark"></span> ServiceNow <span style="opacity:.5">|</span> <img src="https://dskbank.bg/images/default-source/default-album/dsk-bg-logo.png" alt="DSK Bank" style="height:28px;background:white;padding:3px 7px;border-radius:3px"></div>
+    <input class="top-search" value="Search cases, accounts, interactions..." aria-label="Search">
+    <div class="top-actions"><span>DSK Bank Customer Service</span><span>Demo Agent</span><span>⚙</span></div>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="side-title">Workspace</div>
+      <div class="nav-item active"><span class="dot"></span> My Work</div>
+      <div class="nav-item"><span class="dot"></span> Cases</div>
+      <div class="nav-item"><span class="dot"></span> Accounts</div>
+      <div class="nav-item"><span class="dot"></span> Interactions</div>
+      <div class="nav-item"><span class="dot"></span> Knowledge</div>
+      <div class="nav-item"><span class="dot"></span> Tasks</div>
+      <div class="nav-item"><span class="dot"></span> Reports</div>
+      <div class="side-title" style="margin-top:20px">Administration</div>
+      <div class="nav-item"><span class="dot"></span> SLAs</div>
+      <div class="nav-item"><span class="dot"></span> Assignment</div>
+    </aside>
+
+    <main>
+      <div class="breadcrumb">DSK Bank Customer Service Management / Cases / <span id="crumbCase">CARD-10042</span></div>
+
+      <section class="record-header">
+        <div class="record-title">
+          <h1>Case <span id="caseIdHeader">CARD-10042</span></h1>
+          <div class="sub">DSK Bank Customer Service Management record · Updated a few minutes ago</div>
+        </div>
+        <div class="badges">
+          <span class="badge open" id="statusBadge">Open</span>
+          <span class="badge priority" id="priorityBadge">Priority 2 - High</span>
+          <span class="badge">Source: Genesys Cloud</span>
+        </div>
+      </section>
+
+      <div class="grid">
+        <div>
+          <section class="card">
+            <div class="card-title">Case details</div>
+            <div class="card-body">
+              <div class="fields">
+                <div class="field">
+                  <label>Case number</label>
+                  <div class="value readonly" id="caseId">CARD-10042</div>
+                </div>
+                <div class="field">
+                  <label>Status</label>
+                  <div class="value" id="status">Open</div>
+                </div>
+                <div class="field">
+                  <label>Customer account</label>
+                  <div class="value readonly" id="accountId">BG80STSA00000012345678</div>
+                </div>
+                <div class="field">
+                  <label>Customer segment</label>
+                  <div class="value readonly" id="segment">Premium</div>
+                </div>
+                <div class="field">
+                  <label>Contact channel</label>
+                  <div class="value readonly">Voice</div>
+                </div>
+                <div class="field">
+                  <label>Service</label>
+                  <div class="value" id="service">Cards & Payments</div>
+                </div>
+                <div class="field">
+                  <label>Case category</label>
+                  <div class="value">Cards & Payments</div>
+                </div>
+                <div class="field">
+                  <label>Intent / reason</label>
+                  <div class="value" id="intent">Unrecognized card transaction</div>
+                </div>
+                <div class="field">
+                  <label>Assignment group</label>
+                  <div class="value">Cards & Payments</div>
+                </div>
+                <div class="field">
+                  <label>Priority</label>
+                  <div class="value" id="priority">2 - High</div>
+                </div>
+                <div class="field full">
+                  <label>Short description</label>
+                  <div class="value">Client reports an unrecognized online card payment and requests investigation.</div>
+                </div>
+                <div class="field full">
+                  <label>Description</label>
+                  <div class="value desc">
+                    Client contacted DSK Bank through Genesys Cloud regarding an unrecognized card transaction.
+                    Card and account context was retrieved before agent handover. The interaction was escalated to Cards & Payments with the dispute context and interaction identifiers preserved.
+                  </div>
+                </div>
+              </div>
+              <div class="btn-row">
+                <button onclick="showToast('Case saved')">Save</button>
+                <button class="secondary" onclick="showToast('Work note added')">Add work note</button>
+                <button class="secondary" onclick="showToast('Case assigned')">Assign</button>
+                <button class="secondary" onclick="showToast('Follow-up task created')">Create follow-up</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="card section-gap">
+            <div class="card-title">Interaction history</div>
+            <div class="card-body" style="padding:0">
+              <table>
+                <thead>
+                  <tr><th>Type</th><th>Reference</th><th>Reason</th><th>Outcome</th><th>Channel</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="pill voice">Interaction</span></td>
+                    <td id="interactionIdTable">GC-DSK-DEMO-1001</td>
+                    <td>Card transaction inquiry / dispute</td>
+                    <td>Transferred to Customer Care</td>
+                    <td>Voice</td>
+                  </tr>
+                  <tr>
+                    <td><span class="pill work">Task</span></td>
+                    <td>WT-000734</td>
+                    <td>Collect missing card-dispute evidence</td>
+                    <td>Pending</td>
+                    <td>Work item</td>
+                  </tr>
+                  <tr>
+                    <td><span class="pill digital">Message</span></td>
+                    <td>MSG-000219</td>
+                    <td>Case status inquiry</td>
+                    <td>Linked to case</td>
+                    <td>Web messaging</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card section-gap">
+            <div class="card-title">Activity</div>
+            <div class="card-body">
+              <ul class="timeline">
+                <li>
+                  Case created from DSK Bank Genesys Cloud interaction
+                  <time>Today 10:41</time>
+                </li>
+                <li>
+                  Client, account and card-dispute context attached to the case
+                  <time>Today 10:41</time>
+                </li>
+                <li>
+                  Assigned to Cards & Payments
+                  <time>Today 10:42</time>
+                </li>
+                <li>
+                  Follow-up workitem created for additional card evidence
+                  <time>Today 10:48</time>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </div>
+
+        <div>
+          <section class="card">
+            <div class="card-title">Genesys Cloud context</div>
+            <div class="card-body">
+              <div class="context">
+                <strong>Interaction ID</strong><br><span id="interactionId">GC-DSK-DEMO-1001</span><br><br>
+                <strong>Correlation ID</strong><br><span id="correlationId">DSK-CORR-10001</span><br><br>
+                <strong>Authentication</strong><br><span id="authStatus">Verified</span><br><br>
+                <strong>Selected service</strong><br><span id="selectedService">Cards & Payments</span><br><br>
+                <strong>Routing context</strong><br>Intent + priority + account segment
+              </div>
+            </div>
+          </section>
+
+          <section class="card section-gap">
+            <div class="card-title">SLA overview</div>
+            <div class="card-body">
+              <div class="sla">
+                <div class="sla-box">
+                  <div class="k">Response SLA</div>
+                  <div class="v ok">Met</div>
+                </div>
+                <div class="sla-box">
+                  <div class="k">Resolution SLA</div>
+                  <div class="v warn">3h 18m</div>
+                </div>
+                <div class="sla-box">
+                  <div class="k">Case age</div>
+                  <div class="v">42 min</div>
+                </div>
+                <div class="sla-box">
+                  <div class="k">Priority</div>
+                  <div class="v">High</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card section-gap">
+            <div class="card-title">Banking relationship</div>
+            <div class="card-body">
+              <div class="fields" style="grid-template-columns:1fr">
+                <div class="field">
+                  <label>Account</label>
+                  <div class="value readonly" id="accountSummary">BG80STSA00000012345678</div>
+                </div>
+                <div class="field">
+                  <label>Segment</label>
+                  <div class="value readonly" id="segmentSummary">Premium</div>
+                </div>
+                <div class="field">
+                  <label>Digital profile</label>
+                  <div class="value readonly">Active</div>
+                </div>
+                <div class="field">
+                  <label>Open cases</label>
+                  <div class="value readonly">1</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card section-gap">
+            <div class="card-title">Knowledge recommendations</div>
+            <div class="card-body">
+              <div style="font-size:12px;line-height:1.5">
+                <strong>Card transaction dispute investigation</strong><br>
+                <span style="color:var(--sn-muted)">Cards & Payments procedure · 92% relevance</span>
+                <hr style="border:0;border-top:1px solid #e2e7e6;margin:12px 0">
+                <strong>Unrecognized card transaction evidence checklist</strong><br>
+                <span style="color:var(--sn-muted)">Agent guidance · 87% relevance</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div class="footer-note">DSK Bank demo mockup only — not connected to a production ServiceNow instance or banking system.</div>
+    </main>
+  </div>
+
+  <div id="toast" style="
+    position:fixed;right:22px;bottom:22px;background:#17332d;color:white;
+    padding:10px 14px;border-radius:5px;font-size:12px;display:none;
+    box-shadow:0 3px 10px rgba(0,0,0,.22);z-index:99;">
+  </div>
+
+<script>
+function qp(name, fallback){
+  const p = new URLSearchParams(window.location.search);
+  const v = p.get(name);
+  return v === null || v === "" ? fallback : v;
+}
+function setText(id, value){
+  const e = document.getElementById(id);
+  if(e) e.textContent = value;
+}
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.display='block';
+  setTimeout(()=>t.style.display='none',1600);
+}
+
+const data = {
+  caseId: qp('caseId','CARD-10042'),
+  accountId: qp('accountId','BG80STSA00000012345678'),
+  segment: qp('segment','Premium'),
+  service: qp('service','Cards & Payments'),
+  intent: qp('intent','Unrecognized card transaction'),
+  status: qp('status','Open'),
+  priority: qp('priority','2 - High'),
+  interactionId: qp('interactionId','GC-DSK-DEMO-1001'),
+  correlationId: qp('correlationId','DSK-CORR-10001'),
+  authStatus: qp('authStatus','Verified'),
+  selectedService: qp('selectedService','Cards & Payments')
+};
+
+setText('crumbCase',data.caseId);
+setText('caseIdHeader',data.caseId);
+setText('caseId',data.caseId);
+setText('accountId',data.accountId);
+setText('accountSummary',data.accountId);
+setText('segment',data.segment);
+setText('segmentSummary',data.segment);
+setText('service',data.service);
+setText('intent',data.intent);
+setText('status',data.status);
+setText('statusBadge',data.status);
+setText('priority',data.priority);
+setText('priorityBadge','Priority ' + data.priority);
+setText('interactionId',data.interactionId);
+setText('interactionIdTable',data.interactionId);
+setText('correlationId',data.correlationId);
+setText('authStatus',data.authStatus);
+setText('selectedService',data.selectedService);
+</script>
+</body>
+</html>
