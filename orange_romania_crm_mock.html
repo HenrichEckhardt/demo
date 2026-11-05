@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Orange Romania CRM Mock</title>
+<style>
+  :root{
+    --orange:#ff7900;
+    --black:#111111;
+    --dark:#1d1d1d;
+    --mid:#666;
+    --light:#f4f4f4;
+    --line:#d8d8d8;
+    --green:#1f9d55;
+    --amber:#d98c00;
+    --red:#d92d20;
+    --blue:#276ef1;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#ececec;
+    color:#222;
+  }
+  .app{max-width:1500px;margin:0 auto;background:#fff;min-height:100vh;box-shadow:0 0 14px rgba(0,0,0,.12)}
+  .topbar{
+    background:#000;color:#fff;display:flex;align-items:center;gap:22px;
+    padding:14px 22px;border-bottom:5px solid var(--orange);
+  }
+  .logo{
+    width:112px;height:72px;background:var(--orange);display:flex;align-items:flex-end;
+    justify-content:center;font-weight:700;font-size:28px;padding-bottom:8px;
+  }
+  .title h1{margin:0 0 5px;font-size:26px}
+  .title p{margin:0;color:#cfcfcf;font-size:14px}
+  .status-pill{margin-left:auto;background:#173b1f;color:#b8f5c7;border:1px solid #367c46;padding:8px 12px;border-radius:18px;font-size:13px}
+  .nav{
+    display:flex;gap:2px;background:#222;padding:0 10px;
+  }
+  .nav a{color:#fff;text-decoration:none;padding:13px 18px;font-size:14px}
+  .nav a.active,.nav a:hover{background:var(--orange)}
+  .main{padding:16px}
+  .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
+  .card{border:1px solid var(--line);background:#fff}
+  .card h2{margin:0;background:#000;color:#fff;padding:11px 14px;font-size:18px}
+  .card h2.orange{background:var(--orange)}
+  .content{padding:14px}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .kv{display:grid;grid-template-columns:165px 1fr;row-gap:8px;font-size:14px}
+  .kv .k{color:#777}
+  .kv .v{font-weight:600}
+  .badge{display:inline-block;padding:4px 8px;border-radius:12px;font-size:12px;font-weight:700}
+  .gold{background:#fff3c4;color:#8b6500}
+  .green{background:#dff6e6;color:#177b38}
+  .red{background:#ffe1de;color:#a7281e}
+  .amber{background:#fff0ce;color:#9d6500}
+  .blue{background:#e4ecff;color:#1b52b6}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  button,.btn{
+    border:0;padding:10px 14px;background:#000;color:#fff;font-weight:700;
+    border-radius:3px;cursor:pointer;font-size:13px;text-decoration:none;display:inline-block;
+  }
+  .btn.orange,button.orange{background:var(--orange)}
+  .btn.green,button.green{background:#13b93f}
+  .btn.grey,button.grey{background:#666}
+  .btn.outline{background:#fff;color:#111;border:1px solid #111}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{background:#f2f2f2;text-align:left;padding:9px;border-bottom:1px solid #bbb}
+  td{padding:9px;border-bottom:1px solid #e2e2e2;vertical-align:top}
+  tr:hover td{background:#fafafa}
+  .metric{border:1px solid var(--line);padding:12px}
+  .metric .label{font-size:12px;color:#666}
+  .metric .value{font-size:21px;font-weight:700;margin-top:3px}
+  .timeline{position:relative;margin-left:8px}
+  .event{border-left:3px solid #ccc;padding:0 0 14px 15px;position:relative}
+  .event:before{content:"";position:absolute;left:-7px;top:2px;width:11px;height:11px;border-radius:50%;background:var(--orange)}
+  .event .time{font-size:11px;color:#777}
+  .event .name{font-weight:700;margin:2px 0}
+  .event .desc{font-size:13px;color:#555}
+  .section-gap{margin-top:16px}
+  .case-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+  .case-id{font-size:22px;font-weight:700}
+  .muted{color:#777}
+  .note{background:#fff8eb;border-left:4px solid var(--orange);padding:10px 12px;font-size:13px}
+  textarea,select,input{
+    width:100%;padding:9px;border:1px solid #bbb;border-radius:2px;font:inherit;background:#fff;
+  }
+  label{font-size:12px;color:#666;display:block;margin-bottom:5px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+  .footer{padding:16px;color:#666;font-size:12px;text-align:center;border-top:1px solid #ddd;margin-top:18px}
+  @media (max-width:1000px){
+    .grid,.two-col,.three-col,.form-row{grid-template-columns:1fr}
+    .status-pill{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="logo">orange</div>
+    <div class="title">
+      <h1>Orange Romania CRM — Customer 360</h1>
+      <p>Demo customer-service workspace for Genesys Cloud POC</p>
+    </div>
+    <div class="status-pill">Connected to Genesys demo environment</div>
+  </header>
+
+  <nav class="nav">
+    <a class="active" href="#overview">Overview</a>
+    <a href="#billing">Billing</a>
+    <a href="#case">Case</a>
+    <a href="#tasks">Tasks</a>
+    <a href="#activity">Activity</a>
+  </nav>
+
+  <main class="main">
+    <section id="overview" class="grid">
+      <div class="card">
+        <h2>Customer Profile</h2>
+        <div class="content">
+          <div class="two-col">
+            <div class="kv">
+              <div class="k">Customer name</div><div class="v">John Doe</div>
+              <div class="k">Customer ID</div><div class="v">CUST-001245</div>
+              <div class="k">Account number</div><div class="v">RO-884102</div>
+              <div class="k">Segment</div><div class="v"><span class="badge gold">Gold</span></div>
+              <div class="k">Customer value</div><div class="v">High</div>
+              <div class="k">Repeat complaints</div><div class="v">3 in last 90 days</div>
+              <div class="k">Authentication</div><div class="v"><span class="badge green">Verified</span></div>
+            </div>
+            <div class="kv">
+              <div class="k">Primary mobile</div><div class="v">+40 744 123 456</div>
+              <div class="k">Secondary mobile</div><div class="v">+40 745 234 567</div>
+              <div class="k">Email</div><div class="v">john.doe@example.com</div>
+              <div class="k">Preferred channel</div><div class="v">Voice</div>
+              <div class="k">Marketing consent</div><div class="v"><span class="badge green">Yes</span></div>
+              <div class="k">Digital consent</div><div class="v"><span class="badge green">Yes</span></div>
+              <div class="k">DNC status</div><div class="v"><span class="badge green">Clear</span></div>
+            </div>
+          </div>
+          <div class="toolbar">
+            <button class="orange" onclick="document.getElementById('case').scrollIntoView({behavior:'smooth'})">Open Active Case</button>
+            <button onclick="document.getElementById('billing').scrollIntoView({behavior:'smooth'})">Billing</button>
+            <button onclick="document.getElementById('tasks').scrollIntoView({behavior:'smooth'})">Create Task</button>
+            <button class="grey">Send Verification SMS</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Current Interaction Context</h2>
+        <div class="content">
+          <div class="kv">
+            <div class="k">Interaction ID</div><div class="v">INT-GC-20260929-001</div>
+            <div class="k">Correlation ID</div><div class="v">CORR-10001</div>
+            <div class="k">Channel</div><div class="v">Voice</div>
+            <div class="k">Intent</div><div class="v">Billing dispute</div>
+            <div class="k">Priority</div><div class="v"><span class="badge red">High</span></div>
+            <div class="k">Queue</div><div class="v">Billing Senior</div>
+            <div class="k">AVA summary</div><div class="v">Customer queried higher bill and disputes roaming charge.</div>
+          </div>
+          <div class="note section-gap">
+            Customer has already explained the issue in self-service. Do not ask them to repeat billing details already captured.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="billing" class="card section-gap">
+      <h2>Billing Overview</h2>
+      <div class="content">
+        <div class="three-col">
+          <div class="metric"><div class="label">Current invoice</div><div class="value">935.25 RON</div></div>
+          <div class="metric"><div class="label">Previous invoice</div><div class="value">201.55 RON</div></div>
+          <div class="metric"><div class="label">Payment status</div><div class="value"><span class="badge amber">Pending</span></div></div>
+        </div>
+        <table class="section-gap">
+          <thead>
+            <tr><th>Period</th><th>Invoice</th><th>Amount</th><th>Status</th><th>Remark</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr><td>2026-08</td><td><b>INV-2026-08-10</b></td><td><b>935.25 RON</b></td><td><span class="badge amber">Pending</span></td><td><span class="badge red">HIGH</span></td><td><button>Detail</button></td></tr>
+            <tr><td>2026-07</td><td><b>INV-2026-07-11</b></td><td>201.55 RON</td><td><span class="badge green">Completed</span></td><td>Normal</td><td><button class="grey">Detail</button></td></tr>
+            <tr><td>2026-06</td><td><b>INV-2026-06-10</b></td><td>187.05 RON</td><td><span class="badge green">Completed</span></td><td>Normal</td><td><button class="grey">Detail</button></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Highlighted disputed charges</h3>
+        <table>
+          <thead><tr><th>Date</th><th>Charge</th><th>Destination</th><th>Usage</th><th>Amount</th><th>Dispute</th></tr></thead>
+          <tbody>
+            <tr><td>31 Aug 2026</td><td>Roaming voice</td><td>Egypt → Romania</td><td>42 min</td><td><b>116.00 RON</b></td><td><span class="badge red">Contested</span></td></tr>
+            <tr><td>30 Aug 2026</td><td>Roaming voice</td><td>Egypt → Romania</td><td>14 min</td><td>38.43 RON</td><td>No</td></tr>
+            <tr><td>28 Aug 2026</td><td>Roaming voice</td><td>Egypt → Romania</td><td>95 min</td><td>178.35 RON</td><td>No</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="case" class="grid section-gap">
+      <div class="card">
+        <h2 class="orange">Active Case</h2>
+        <div class="content">
+          <div class="case-head">
+            <span class="case-id">CASE-2026-48117</span>
+            <span class="badge red">High Priority</span>
+            <span class="badge amber">Open</span>
+          </div>
+          <div class="kv">
+            <div class="k">Case type</div><div class="v">Billing dispute</div>
+            <div class="k">Category</div><div class="v">Roaming charges</div>
+            <div class="k">Opened</div><div class="v">29 Sep 2026 17:42</div>
+            <div class="k">Owner</div><div class="v">Billing Senior Queue</div>
+            <div class="k">Required skill</div><div class="v">Complex Complaint / Billing</div>
+            <div class="k">Disputed amount</div><div class="v">116.00 RON</div>
+            <div class="k">Eligibility</div><div class="v"><span class="badge blue">Agent review required</span></div>
+            <div class="k">Reason code</div><div class="v">ABOVE_AUTOMATION_LIMIT</div>
+            <div class="k">Rule version</div><div class="v">3.2</div>
+            <div class="k">Transaction ref.</div><div class="v">DSP-4711</div>
+          </div>
+          <div class="toolbar">
+            <button class="green">Approve Credit</button>
+            <button>Create Follow-up Task</button>
+            <button class="grey">Escalate</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Agent / AVA Context</h2>
+        <div class="content">
+          <div class="kv">
+            <div class="k">Detected intent</div><div class="v">Billing inquiry → Billing dispute</div>
+            <div class="k">Customer statement</div><div class="v">“I don't agree with that roaming charge.”</div>
+            <div class="k">Backend retrieval</div><div class="v">Succeeded after retry</div>
+            <div class="k">Authentication</div><div class="v">Verified</div>
+            <div class="k">Escalation reason</div><div class="v">Disputed amount requires agent approval</div>
+            <div class="k">Knowledge used</div><div class="v">Roaming charging policy</div>
+          </div>
+          <div class="note section-gap">
+            This mock intentionally separates conversational understanding from deterministic backend eligibility.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tasks" class="grid section-gap">
+      <div class="card">
+        <h2>Create Task / Workitem</h2>
+        <div class="content">
+          <div class="form-row">
+            <div><label>Task type</label><select><option>Billing follow-up</option><option>Technical follow-up</option><option>Customer callback</option></select></div>
+            <div><label>Priority</label><select><option>High</option><option>Normal</option></select></div>
+          </div>
+          <div class="form-row">
+            <div><label>Required skill</label><select><option>Billing</option><option>Complex Complaint</option><option>Mobile Technical</option></select></div>
+            <div><label>Assigned team</label><select><option>Billing Senior</option><option>General Service</option><option>Mobile Technical</option></select></div>
+          </div>
+          <div class="form-row">
+            <div><label>Related case</label><input value="CASE-2026-48117" /></div>
+            <div><label>Related interaction</label><input value="INT-GC-20260929-001" /></div>
+          </div>
+          <div><label>Description</label><textarea rows="5">Follow up with customer after billing dispute review. Preserve interaction and eligibility context.</textarea></div>
+          <div class="toolbar">
+            <button class="orange" onclick="alert('Demo task TASK-90017 created')">Create Task</button>
+            <button class="outline">Create & Assign</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Open Tasks</h2>
+        <div class="content">
+          <table>
+            <thead><tr><th>Task</th><th>Type</th><th>Priority</th><th>Status</th><th>Owner</th></tr></thead>
+            <tbody>
+              <tr><td><b>TASK-90014</b></td><td>Billing follow-up</td><td><span class="badge red">High</span></td><td>Assigned</td><td>Agent 101</td></tr>
+              <tr><td><b>TASK-90015</b></td><td>Callback</td><td>Normal</td><td>Queued</td><td>Billing Senior</td></tr>
+            </tbody>
+          </table>
+          <div class="note section-gap">
+            POC workitem pattern: original-agent routing when available, then skill/team overflow and escalation if not accepted.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="activity" class="card section-gap">
+      <h2>Interaction & Backend Activity</h2>
+      <div class="content">
+        <div class="timeline">
+          <div class="event"><div class="time">17:40:02</div><div class="name">Customer identified</div><div class="desc">CRM profile loaded for CUST-001245.</div></div>
+          <div class="event"><div class="time">17:40:16</div><div class="name">AVA intent detected</div><div class="desc">Billing inquiry; customer asks why current bill is higher.</div></div>
+          <div class="event"><div class="time">17:40:21</div><div class="name">Billing API request</div><div class="desc">First request failed / timed out.</div></div>
+          <div class="event"><div class="time">17:40:31</div><div class="name">Billing API retry</div><div class="desc">Customer confirmed retry; request completed successfully.</div></div>
+          <div class="event"><div class="time">17:41:10</div><div class="name">Intent changed</div><div class="desc">Billing inquiry → Billing dispute.</div></div>
+          <div class="event"><div class="time">17:41:15</div><div class="name">Eligibility evaluated</div><div class="desc">Agent review required; reason ABOVE_AUTOMATION_LIMIT.</div></div>
+          <div class="event"><div class="time">17:42:00</div><div class="name">Transferred to Billing Senior</div><div class="desc">Full customer, billing and conversation context preserved.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      Demo-only CRM mockup • Orange Romania POC • Static synthetic data
+    </div>
+  </main>
+</div>
+</body>
+</html>
